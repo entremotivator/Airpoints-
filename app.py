@@ -12,6 +12,17 @@ demo_data = {
     "Frontier Airlines": 3000,
 }
 
+# Airline rewards links
+airline_links = {
+    "American Airlines": "https://www.aa.com/en-us/aadvantage-program",
+    "Delta Airlines": "https://www.delta.com/us/en/skymiles-program/skymiles-program",
+    "United Airlines": "https://www.united.com/ual/en/us/fly/mileageplus.html",
+    "Southwest Airlines": "https://www.southwest.com/rapidrewards/",
+    "JetBlue": "https://www.jetblue.com/trueblue",
+    "Alaska Airlines": "https://www.alaskaair.com/mileage-plan/",
+    "Frontier Airlines": "https://www.flyfrontier.com/frontier-miles/",
+}
+
 # Initialize user data
 user_points = {airline: 0 for airline in demo_data.keys()}
 user_history = []
@@ -40,38 +51,19 @@ if st.button("Save Points"):
     user_history.append(user_points.copy())  # Store the current session's points
     st.success(f"Points saved! Total Points Across All Airlines: {total_points}")
 
-# Display the points entered for each airline
+# Display the points entered for each airline with links
 st.header("Your Points Summary:")
 points_df = pd.DataFrame(list(user_points.items()), columns=["Airline", "Points"])
 for airline, points in user_points.items():
-    st.write(f"{airline}: {points} points")
+    st.markdown(f"{airline}: {points} points - [Learn More]({airline_links[airline]})")
 
-# Detailed rewards information
+# Detailed rewards information with links
 st.sidebar.header("Rewards Information")
 st.sidebar.write("""
-    Each airline has a unique rewards system. Here's a quick summary:
-    
-    **American Airlines (AAdvantage Program)**:
-    - Earn points on flights, upgrades, and partner spending.
-    
-    **Delta Airlines (SkyMiles Program)**:
-    - Flexible award tickets, earn points for flights and purchases.
-
-    **United Airlines (MileagePlus)**:
-    - Earn on flights and shopping with partners, with multiple award options.
-
-    **Southwest Airlines (Rapid Rewards)**:
-    - Redeem points for flights, hotels, and car rentals.
-    
-    **JetBlue (TrueBlue Program)**:
-    - Earn points on flights, vacation packages, and select partners.
-    
-    **Alaska Airlines (Mileage Plan)**:
-    - Points earned on flights, with many partner redemption options.
-    
-    **Frontier Airlines (Frontier Miles)**:
-    - Earn points for flights, shopping, and dining experiences.
+Each airline has a unique rewards system. Click the links to explore more about each program:
 """)
+for airline, link in airline_links.items():
+    st.sidebar.markdown(f"**[{airline}]({link})**: Visit the rewards program page for details.")
 
 # Points history tracking
 st.header("Points History")
@@ -90,5 +82,5 @@ st.sidebar.write("""
 3. Click 'Save Points' to save your current points.
 4. Review your points summary and history in the respective sections.
 5. Refer to the rewards information for details on each airline's program.
+6. Click on the 'Learn More' links to go directly to the rewards page for more information.
 """)
-
