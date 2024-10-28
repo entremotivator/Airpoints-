@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Sample airline rewards data
 demo_data = {
@@ -26,6 +25,7 @@ username = st.sidebar.text_input("Enter your username", "")
 if st.sidebar.button("Register"):
     if username:
         st.success(f"Registration successful for {username}!")
+        st.session_state['username'] = username  # Store user info in session state
     else:
         st.error("Please enter a username to register.")
 
@@ -46,27 +46,31 @@ points_df = pd.DataFrame(list(user_points.items()), columns=["Airline", "Points"
 for airline, points in user_points.items():
     st.write(f"{airline}: {points} points")
 
-# Data visualization
-st.header("Points Comparison")
-fig, ax = plt.subplots()
-ax.bar(points_df["Airline"], points_df["Points"], color='skyblue')
-ax.set_xlabel("Airlines")
-ax.set_ylabel("Points")
-ax.set_title("Points Comparison Across Airlines")
-plt.xticks(rotation=45)
-st.pyplot(fig)
-
 # Detailed rewards information
 st.sidebar.header("Rewards Information")
 st.sidebar.write("""
     Each airline has a unique rewards system. Here's a quick summary:
-    - **American Airlines**: AAdvantage program, points for flights, upgrades.
-    - **Delta Airlines**: SkyMiles program, flexible award tickets.
-    - **United Airlines**: MileagePlus, points for flights and shopping.
-    - **Southwest Airlines**: Rapid Rewards, points for flights and more.
-    - **JetBlue**: TrueBlue, points for flights and vacation packages.
-    - **Alaska Airlines**: Mileage Plan, points for flights and partners.
-    - **Frontier Airlines**: Frontier Miles, points for flights and purchases.
+    
+    **American Airlines (AAdvantage Program)**:
+    - Earn points on flights, upgrades, and partner spending.
+    
+    **Delta Airlines (SkyMiles Program)**:
+    - Flexible award tickets, earn points for flights and purchases.
+
+    **United Airlines (MileagePlus)**:
+    - Earn on flights and shopping with partners, with multiple award options.
+
+    **Southwest Airlines (Rapid Rewards)**:
+    - Redeem points for flights, hotels, and car rentals.
+    
+    **JetBlue (TrueBlue Program)**:
+    - Earn points on flights, vacation packages, and select partners.
+    
+    **Alaska Airlines (Mileage Plan)**:
+    - Points earned on flights, with many partner redemption options.
+    
+    **Frontier Airlines (Frontier Miles)**:
+    - Earn points for flights, shopping, and dining experiences.
 """)
 
 # Points history tracking
@@ -87,3 +91,4 @@ st.sidebar.write("""
 4. Review your points summary and history in the respective sections.
 5. Refer to the rewards information for details on each airline's program.
 """)
+
